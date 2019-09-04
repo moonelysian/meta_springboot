@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>INDEX</title>
+	<title>EDIT</title>
 	<meta content="text/html; charset=utf-8" />
 	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
 	<link rel="stylesheet" href="./css/style.css">
@@ -18,31 +18,19 @@
 </nav>
 
 <body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col"></div>
-			<div class="col-6">
-				<table id="todoList" class="table table-striped">
-					<thead>
-						<tr>
-							<th scope="col">Id</th>
-							<th scope="col">Title</th>
-							<th scope="col">Content</th>
-							<th scope="col">Reporting Date</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>1</td>
-							<td>test title</td>
-							<td>test content</td>
-							<td>test date</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col"></div>	
+<div class="row">
+	<div class="col"></div>
+	<div class="col-6">
+		<div class="form-group form-vales">
+			<label>TITLE</label>
+			<input id="title" class="form-control" placeholder="title"> 
+			<label>Content</label>
+			<textarea id="content" class="form-control" placeholder="content"></textarea>
+			<input id="creared" class="form-control" type="hidden">
+			<button id="update" type="button" class="btn btn-info">update</button>
 		</div>
 	</div>
+	<div class="col"></div>
+</div>
 </body>
 </html>

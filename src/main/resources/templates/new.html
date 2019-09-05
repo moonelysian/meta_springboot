@@ -3,11 +3,9 @@
 <head>
 	<title>NEW</title>
 	<meta content="text/html; charset=utf-8" />
-	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 	<link rel="stylesheet" href="./css/style.css">
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
-	<script type="text/javascript" src="./js/script.js"></script>
-	<script type="text/javascript" src="./js/bootstrap.js"></script>
 </head>
 
 <nav>
@@ -21,16 +19,15 @@
 <div class="row">
 	<div class="col"></div>
 	<div class="col-6">
-			<form>
+		<form th:action="@{/new}" th:object="${todo}" method='post'>
 				<div class="form-group form-vales">
 					<label>TITLE</label> 
-					<input id="title" class="form-control" placeholder="title" required> 
+					<input th:field=*{title} id="title" class="form-control" placeholder="title"> 
 					
 					<label>Content</label>
-					<textarea id="content" class="form-control" placeholder="content"></textarea>
+					<textarea id="content" th:field="*{content}" class="form-control" placeholder="content"></textarea>
 					
-					<input id="crearted" class="form-control" type="hidden"> 
-					<input id="save" type="submit" class="btn btn-info">
+					<button id="save" type="submit" class="btn btn-info">저장</button>
 				</div>
 			</form>
 	</div>
@@ -39,8 +36,19 @@
 </body>
 
 <script>
+	$(document).ready(function() {
+		$("#save").click(function(){
+			var json = { title : $("#title").val(), content : $("#content").val(), created: $("#created").val()};
 
+			for ( var str in json) {
+				if (json[str].length == 0){ 
+					alert($("#" + str).attr("placeholder")+ "를 입력해주세요.");
+					$("#" + str).focus();
+					return;
+				}
+			}
+		});
+	});
 </script>
-
 </html>
 

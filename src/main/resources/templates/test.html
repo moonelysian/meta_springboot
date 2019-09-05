@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Result</title>
+</head>
+ 
+<body>
+    <h1>Result</h1>
+    <!--/*@thymesVar id="person" type="com.example.demo.Person"*/-->
+    <p th:text="'title: ' + ${todo.title}"/>
+    <p th:text="'content: ' + ${todo.content}"/>
+    <p th:text="'created: ' + ${todo.created}">
+</body>
+</html>

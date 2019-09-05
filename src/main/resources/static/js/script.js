@@ -2,15 +2,14 @@ $(document).ready(function(){
 	
 	assignDataToTable();
 	
-	$('table').on('click', 'button[id="delete"]', function(e){
+	$('table').on('click', 'button[id="edit"]', function(e){
 		var id = $(this).closest('tr').children('td:first').text();
 	       
 	    $.ajax({
-	    	type:"DELETE",
-	        url:"http://localhost:8080/index" + id,
+	    	type:"GET",
+	        url:"http://localhost:8080/edit"+id,
 	        success: function(data){
-	              alertUsing("delete.", true);
-	              assignDataToTable();
+	              
 	            },
 	            error: function(err) {  
 	                console.log(err);
@@ -18,7 +17,6 @@ $(document).ready(function(){
 	            }
 	        });
 	    })
-	
 	
 	function assignDataToTable() {
 		 $("tbody").empty();

@@ -21,9 +21,11 @@
 <div class="row">
 	<div class="col"></div>
 	<div class="col-6">
-		<h1>title</h1>
-		<h1>content</h1>
-		<h4>Reported Date</h4>
+		<h3 th:text="${todo.title}"></h3><br/>
+		<span th:text="${todo.content}"></span><br/>
+		<p style="text-align: right;">reported date: <span th:text="${todo.created}"></span></p>
+		<br/>
+		
 		<div class="text-right">
 			<button class="btn btn-info">수정</button>
 			<button class="btn btn-danger">삭제</button>

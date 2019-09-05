@@ -3,11 +3,10 @@
 <head>
 	<title>EDIT</title>
 	<meta content="text/html; charset=utf-8" />
+	<meta content="text/html; charset=utf-8" />
 	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-	<link rel="stylesheet" href="./css/style.css">
-	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
-	<script type="text/javascript" src="./js/script.js"></script>
-	<script type="text/javascript" src="./js/bootstrap.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
 </head>
 
 <nav>
@@ -26,7 +25,6 @@
 			<input id="title" class="form-control" th:value="${todo.title}"> 
 			<label>Content</label>
 			<textarea id="content" class="form-control" th:text="${todo.content}"></textarea>
-			<input id="created" class="form-control" type="hidden" th:value="${todo.created}">
 			<button id="update" type="submit" class="btn btn-info">update</button>
 		</div>
 	</div>

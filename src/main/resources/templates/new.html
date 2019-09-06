@@ -22,10 +22,10 @@
 		<form th:action="@{/new}" th:object="${todo}" method='post'>
 				<div class="form-group form-vales">
 					<label>TITLE</label> 
-					<input th:field=*{title} id="title" class="form-control" placeholder="title"> 
+					<input id="title" class="form-control" placeholder="title"> 
 					
 					<label>Content</label>
-					<textarea id="content" th:field="*{content}" class="form-control" placeholder="content"></textarea>
+					<textarea id="content" class="form-control" placeholder="content"></textarea>
 					
 					<button id="save" type="submit" class="btn btn-info">저장</button>
 				</div>
@@ -37,16 +37,33 @@
 
 <script>
 	$(document).ready(function() {
-		$("#save").click(function(){
-			var json = { title : $("#title").val(), content : $("#content").val(), created: $("#created").val()};
+		$("#save").click(function( event ){
+			event.preventDefault();
+			var todo = {
+					title : $("#title").val(), 
+					content : $("#content").val(),
+					};
 
-			for ( var str in json) {
-				if (json[str].length == 0){ 
+			for ( var str in todo) {
+				if (todo[str].length == 0){ 
 					alert($("#" + str).attr("placeholder")+ "를 입력해주세요.");
 					$("#" + str).focus();
 					return;
 				}
 			}
+			
+			$.ajax({
+				method:"post",
+				url:"http://localhost:8080/api/create",
+				data: todo,
+				success: function(data){
+					location.href="http://localhost:8080/";
+		        },
+		        error: function(err) {
+		        	console.log(err);
+		        	alert(err);
+		        }
+		    });
 		});
 	});
 </script>

@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class Todo {
 	
+	private String todoId;
+	
 	private String title;
 	
 	private String content;
 	
-	private LocalDate created;
+	private LocalDate created = LocalDate.now();
 	
 }

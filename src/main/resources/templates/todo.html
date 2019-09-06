@@ -3,11 +3,10 @@
 <head>
 	<title>TODO</title>
 	<meta content="text/html; charset=utf-8" />
-	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
-	<link rel="stylesheet" href="./css/style.css">
-	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
-	<script type="text/javascript" src="./js/script.js"></script>
-	<script type="text/javascript" src="./js/bootstrap.js"></script>
+	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+	<script type="text/javascript" src="../js/bootstrap.js"></script>
 </head>
 
 <nav>
@@ -21,17 +20,47 @@
 <div class="row">
 	<div class="col"></div>
 	<div class="col-6">
-		<h3 th:text="${todo.title}"></h3><br/>
-		<span th:text="${todo.content}"></span><br/>
-		<p style="text-align: right;">reported date: <span th:text="${todo.created}"></span></p>
-		<br/>
-		
-		<div class="text-right">
-			<button class="btn btn-info">수정</button>
-			<button class="btn btn-danger">삭제</button>
+		<div id="todo">
+			
+		</div>
+		<div id="buttons" class="text-right">
+			<button id="edit" class="btn btn-info">수정</button>
+			<button id="delete" class="btn btn-danger">삭제</button>
 		</div>
 	</div>
 	<div class="col"></div>
 </div>
 </body>
+
+<script>
+	$(document).ready(function(){
+		var path = $(location).attr('pathname');
+		$.ajax({
+			type:"GET",
+			url:"http://localhost:8080/api/"+path,
+			success: function(data){
+				data.forEach(function (item, index, arry){
+					$("#todo").
+					append( "<h4 id='postId'>Post Id: " + item.todoId + "</h4>"+
+							"<h3>" + item.title + "</h3>" +
+							"<span>Reported Date:" + item.created + "</span></br></br>" +
+							"<p>" + item.content + "</p>" );
+					
+					$('#buttons').on('click', 'button[id="edit"]', function(e){
+						location.href="http://localhost:8080/edit/" + item.todoId;
+					})
+				});
+			},
+			error: function(err) {  
+				console.log(err);
+				alert(err);
+			}
+		});
+		
+		
+		
+	})
+
+</script>
+
 </html>

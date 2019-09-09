@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.Pagination;
 import com.example.demo.model.Todo;
 import com.example.demo.service.ApiService;
 
@@ -22,8 +23,13 @@ public class ApiController {
 	private ApiService apiService;
 	
 	@GetMapping("/todos")
-	public List<Todo> listing() {	
-		return apiService.selectTodoList();
+	public List<Todo> paging(@ModelAttribute Pagination page){
+		int num = page.getPageNo()-1;
+		int size = page.getPageSize();
+		int value = num*size;		
+		
+		page.setValue(value);
+		return apiService.paging(page);
 	}
 	
 	@GetMapping("/todo/{id}")

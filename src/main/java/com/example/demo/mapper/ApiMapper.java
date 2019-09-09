@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.example.demo.model.Pagination;
 import com.example.demo.model.Todo;
 
 @Mapper
@@ -50,4 +51,13 @@ public interface ApiMapper {
 			+ "</script>"
 			)
 	public Integer countTodo();
+	
+	@Select(value="<script>"
+			+ " SELECT * FROM todos"
+			+ " ORDER BY todo_id"
+			+ " LIMIT #{pageSize} OFFSET #{value}"
+			+"</script>"
+			)
+	public List<Todo> paging(Pagination page);
+	
 }

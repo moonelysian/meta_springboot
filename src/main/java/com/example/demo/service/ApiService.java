@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.ApiMapper;
+import com.example.demo.model.Pagination;
 import com.example.demo.model.Todo;
 
 @Service
@@ -14,9 +15,8 @@ public class ApiService {
 	@Autowired
 	private ApiMapper apiMapper;
 	
-	
-	public List<Todo> selectTodoList() {
-		return apiMapper.selectTodoList();
+	public List<Todo> paging(Pagination page){
+		return apiMapper.paging(page);
 	}
 	
 	public List<Todo> findById(Integer id){
@@ -39,4 +39,5 @@ public class ApiService {
 	public Integer countTodo() {
 		return apiMapper.countTodo();
 	}
+	
 }

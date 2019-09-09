@@ -34,5 +34,45 @@
 
 <script>
 
+	$(document).ready(function(){
+		var path = $(location).attr('pathname');
+		var postId = path.split('/').pop();
+		assignData(postId);
+
+		$("#update").click(function(){
+			var edited = {
+					title: $("#title").val(),
+					content: $("#content").val(),
+				}
+			
+			$.ajax({
+				type:"PUT",
+				url: "http://localhost:8080/api/update/"+postId,
+				data: edited,
+				success: function(data){
+					location.href="http://localhost:8080/";
+				},
+				error: function(data){
+					console.log(data);
+				}
+			});
+		});
+		
+		function assignData(postId){
+			$.ajax({
+				type:"GET",
+				url: "http://localhost:8080/api/todo/"+postId,
+				success: function(data){
+					data.forEach(function(item,index,array){
+						$("#title").val(item.title);
+						$("textarea").append(item.content);
+					});
+				},
+				error: function(data){
+					console.log(data);
+				}
+			});
+		}
+	});
 </script>
 </html>

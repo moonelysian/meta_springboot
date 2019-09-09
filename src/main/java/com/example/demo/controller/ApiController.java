@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,15 +30,25 @@ public class ApiController {
 	public List<Todo> showing(@PathVariable(value="id") Integer id) {
 		return apiService.findById(id);
 	}
-
+	
 	@PostMapping("/create")
 	public Integer create( @ModelAttribute Todo todo ) {
 		return apiService.createTodo(todo);
 	}
 	
-	@DeleteMapping("/delete/{id}")
+	@PutMapping("/update/{id}")
+	public Integer updateTodo(@PathVariable(value="id") Integer id,@ModelAttribute Todo todo) {
+		return apiService.updateTodo(id, todo);
+	}
+	
+	@DeleteMapping("/todo/{id}")
 	public Integer deleteTodo(@PathVariable(value="id") Integer id) {
 		return apiService.deleteById(id);
 	}
-
+	
+	//pagination
+	@GetMapping("/count")
+	public Integer countTodo(){
+		return apiService.countTodo();
+	}
 }

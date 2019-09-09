@@ -53,7 +53,6 @@ $(document).ready(function(){
 	                alert(err);
 	            }
 	        });
-	    
 	    })
 	 
 	 $('table').on('click', 'button[id="delete"]', function(e){
@@ -61,9 +60,9 @@ $(document).ready(function(){
        
        $.ajax({
             type:"DELETE",
-            url:"http://localhost:8080/api/delete/"+id,
+            url:"http://localhost:8080/api/todo/"+id,
             success: function(data){
-            	alert(data);
+            	alert("삭제되었습니다.");
                 assignDataToTable();
             },
             error: function(err) {  
@@ -71,7 +70,5 @@ $(document).ready(function(){
                 alert(err);
             }
         });
-
     })
-	 
 });

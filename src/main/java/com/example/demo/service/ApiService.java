@@ -27,7 +27,16 @@ public class ApiService {
 		return apiMapper.createTodo(todo);
 	}
 	
+	public Integer updateTodo(Integer id, Todo todo) {
+		return apiMapper.updateTodo(id, todo);
+	}
+	
 	public Integer deleteById(Integer id){
 		return apiMapper.deleteById(id);
+	}
+	
+	//pagination
+	public Integer countTodo() {
+		return apiMapper.countTodo();
 	}
 }

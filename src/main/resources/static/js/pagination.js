@@ -1,14 +1,30 @@
 $(document).ready(function(){
 	
 	var row = $("select option:selected").val();
-	assignDataTest(row);
+	assignDataTest(row,0);
 	makeBar(row);
 	
 	$('select').change(function(row){
 		row = $("select option:selected").val();
 		makeBar(row);
-		assignDataTest(row,1);
+		assignDataTest(row,0);
 	});
+	
+	 $('table').on('click', 'button[id="delete"]', function(e){
+	       var id = $(this).closest('tr').children('td:first').text();
+	       
+	       $.ajax({
+	            type:"DELETE",
+	            url:"http://localhost:8080/api/todo/"+id,
+	            success: function(data){
+	            	assignDataTest(row,0);
+	            },
+	            error: function(err) {  
+	                console.log(err);
+	                alert(err);
+	            }
+	        });
+	    })
 
 	function makeBar(row){
 			$.ajax({
@@ -20,30 +36,44 @@ $(document).ready(function(){
 				$pagination.empty();
 				
 				var previousElement = ''
-					+ '<li>'
+					+ '<li id="first">'
 						+ '<a class="page-link" href="#" aria-label="Previous">' 
 							+ '<span aria-hidden="true">&laquo;</span>'
 						+ '</a>'
 					+ '</li>';
+				
 				$pagination.append(previousElement);
+				
 				for(var i=0; i<pageCnt; i++){
 					$pagination.append(
-						"<li class=\"page-item\">"+
+						"<li id=" +(i+1)+ " class=\"page-item\">"+
 						"<a class=\"page-link\" href=\"#\">"+ (i+1) +"</a>" +
 						"</li>"
 					);
 				}
 
 				var nextElement = ''
-					+ '<li>'
+					+ '<li id="last">'
 						+ '<a class="page-link" href="#" aria-label="Next">' 
 							+ '<span aria-hidden="true">&raquo;</span>'
 						+ '</a>'
 					+ '</li>';
+				
 				$pagination.append(nextElement);
+				
 				$('.page-item').click(function(){
-					var pageNo = $('.page-item').index()+1;
-					console.log(pageNo);
+					var pageNo = $(this).index()-1;
+					console.log("pageNo: "+pageNo);
+					assignDataTest(row, pageNo);
+				});
+				
+				$('#first').click(function(){
+					var pageNo = 0;
+					assignDataTest(row, pageNo);
+				});
+				
+				$('#last').click(function(){
+					var pageNo = pageCnt-1;
 					assignDataTest(row, pageNo);
 				});
 			},
@@ -73,7 +103,7 @@ $(document).ready(function(){
                 append("<tr> \
                             <td>" + item.todoId + "</td> \
                             <td>" +  item.title + "</td> \
-                            <td>" +  item.content + "</td> \
+                            <td>" +  item.content.substr(0,8) + "..."+"</td> \
                             <td>" +  item.created + "</td> \
                             <td> \ <button id='show' class='btn btn-info'>보기</button> \
                             		<button id='edit' class='btn btn-warning'>수정</button> \

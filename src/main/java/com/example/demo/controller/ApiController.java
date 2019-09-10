@@ -24,11 +24,12 @@ public class ApiController {
 	
 	@GetMapping("/todos")
 	public List<Todo> paging(@ModelAttribute Pagination page){
-		int num = page.getPageNo()-1;
+		int num = page.getPageNo();
 		int size = page.getPageSize();
 		int value = num*size;		
 		
 		page.setValue(value);
+		
 		return apiService.paging(page);
 	}
 	

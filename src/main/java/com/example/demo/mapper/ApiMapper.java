@@ -54,7 +54,7 @@ public interface ApiMapper {
 	
 	@Select(value="<script>"
 			+ " SELECT * FROM todos"
-			+ " ORDER BY todo_id"
+			+ " ORDER BY todo_id DESC"
 			+ " LIMIT #{pageSize} OFFSET #{value}"
 			+"</script>"
 			)

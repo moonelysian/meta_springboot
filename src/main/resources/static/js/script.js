@@ -1,7 +1,31 @@
 $(document).ready(function(){
 	
 //	assignDataToTable();
-//	
+    
+	$('table').on('click', 'button[id="show"]', function(e){
+		var postId = $(this).closest('tr').children('td:first').text();
+		location.href="http://localhost:8080/todo/"+postId;
+
+	})
+	
+	$('table').on('click', 'button[id="edit"]', function(e){
+		
+		var postId = $(this).closest('tr').children('td:first').text();
+	    
+	    $.ajax({
+	    	type:"GET",
+	        url:"http://localhost:8080/edit/"+postId,
+	        data: postId,
+	        success: function(data){
+	        	location.href="http://localhost:8080/edit/"+postId;
+	            },
+	            error: function(err) {  
+	                console.log(err);
+	                alert(err);
+	            }
+	        });
+	    })
+
 //    function assignDataToTable() {
 //        $("tbody").empty();
 //        $.ajax({    
@@ -31,45 +55,4 @@ $(document).ready(function(){
 //        });
 //       
 //    }
-    
-	$('table').on('click', 'button[id="show"]', function(e){
-		var postId = $(this).closest('tr').children('td:first').text();
-		location.href="http://localhost:8080/todo/"+postId;
-
-	})
-	
-	$('table').on('click', 'button[id="edit"]', function(e){
-		
-		var postId = $(this).closest('tr').children('td:first').text();
-	    
-	    $.ajax({
-	    	type:"GET",
-	        url:"http://localhost:8080/edit/"+postId,
-	        data: postId,
-	        success: function(data){
-	        	location.href="http://localhost:8080/edit/"+postId;
-	            },
-	            error: function(err) {  
-	                console.log(err);
-	                alert(err);
-	            }
-	        });
-	    })
-	 
-	 $('table').on('click', 'button[id="delete"]', function(e){
-       var id = $(this).closest('tr').children('td:first').text();
-       
-       $.ajax({
-            type:"DELETE",
-            url:"http://localhost:8080/api/todo/"+id,
-            success: function(data){
-            	alert("삭제되었습니다.");
-                assignDataToTable();
-            },
-            error: function(err) {  
-                console.log(err);
-                alert(err);
-            }
-        });
-    })
 });

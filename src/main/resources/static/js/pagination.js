@@ -97,7 +97,9 @@ $(document).ready(function(){
           data: pagingData,
           success: function(data) {
             var todos = data;
+
             $("tbody").empty();
+            
             todos.forEach( function( item, index, array ){
                 $("tbody").
                 append("<tr> \

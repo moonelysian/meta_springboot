@@ -1,4 +1,4 @@
-$(document).ready(function(){
+//$(document).ready(function(){
 	
 //	assignDataToTable();
     
@@ -55,4 +55,4 @@ $(document).ready(function(){
 //        });
 //       
 //    }
-});
+//});

@@ -3,10 +3,8 @@
 <head>
 	<title>TODO</title>
 	<meta content="text/html; charset=utf-8" />
-	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 	<link rel="stylesheet" href="../css/style.css">
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
-	<script type="text/javascript" src="../js/bootstrap.js"></script>
 </head>
 
 <nav>
@@ -19,43 +17,75 @@
 <body>
 <div class="row">
 	<div class="col"></div>
-	<div class="col-6">
-		<div id="todo">
-			
-		</div>
-		<div id="buttons" class="text-right">
-			<button id="edit" class="btn btn-info">수정</button>
-		</div>
+	<div id="todo" class="col-6">
+		<template>
+			<h6>{{todoList.todoId}}</h6>
+			<h3>{{todoList.title}}</h3>
+			<p>{{todoList.content}}</p>
+			<button v-on:click="editPost" class="btn btn-info">수정</button>
+		</template>
 	</div>
 	<div class="col"></div>
 </div>
 </body>
 
+<script type="text/javascript" src="../js/bootstrap.js"></script>
+<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../js/vue.js"></script>
 <script>
-	$(document).ready(function(){
-		var path = $(location).attr('pathname');
-		$.ajax({
-			type:"GET",
-			url:"http://localhost:8080/api/"+path,
-			success: function(data){
-				data.forEach(function (item, index, arry){
-					$("#todo").
-					append( "<h4 id='postId'>Post Id: " + item.todoId + "</h4>"+
-							"<h3>" + item.title + "</h3>" +
-							"<span>Reported Date:" + item.created + "</span></br></br>" +
-							"<p>" + item.content + "</p>" );
-					
-					$('#buttons').on('click', 'button[id="edit"]', function(e){
-						location.href="http://localhost:8080/edit/" + item.todoId;
-					})
-				});
-			},
-			error: function(err) {  
-				console.log(err);
-				alert(err);
+	const path = $(location).attr('pathname');
+	
+	const app = new Vue({
+		el: '#todo',
+		data:{
+			'todoList' : [],
+		},
+		methods:{
+			getPost: function(data){
+				const self = this;
+				$.ajax({
+		 			type:"GET",
+		 			url:"http://localhost:8080/api/"+path,
+		 			success: function(data){
+		 				self.todoList = data[0];
+		 			},
+		 			error: function(err) {  
+		 				console.log(err);
+		 				alert(err);
+		 			}
+		 		});
+			} ,
+			editPost: function(){
+				const self = this;
+				location.href="http://localhost:8080/edit/"+self.todoList.todoId;
 			}
-		});
+		}
 	})
+	app.getPost();
+// $(document).ready(function(){
+// 		var path = $(location).attr('pathname');
+// 		$.ajax({
+// 			type:"GET",
+// 			url:"http://localhost:8080/api/"+path,
+// 			success: function(data){
+// 				data.forEach(function (item, index, arry){
+// 					$("#todo").
+// 					append( "<h4 id='postId'>Post Id: " + item.todoId + "</h4>"+
+// 							"<h3>" + item.title + "</h3>" +
+// 							"<span>Reported Date:" + item.created + "</span></br></br>" +
+// 							"<p>" + item.content + "</p>" );
+					
+// 					$('#buttons').on('click', 'button[id="edit"]', function(e){
+// 						location.href="http://localhost:8080/edit/" + item.todoId;
+// 					})
+// 				});
+// 			},
+// 			error: function(err) {  
+// 				console.log(err);
+// 				alert(err);
+// 			}
+// 		});
+// })
 
 </script>
 

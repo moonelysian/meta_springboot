@@ -3,7 +3,6 @@
 <head>
 	<title>NEW</title>
 	<meta content="text/html; charset=utf-8" />
-	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 	<link rel="stylesheet" href="./css/style.css">
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 </head>
@@ -19,53 +18,50 @@
 <div class="row">
 	<div class="col"></div>
 	<div class="col-6">
-		<form th:action="@{/new}" th:object="${todo}" method='post'>
-				<div class="form-group form-vales">
-					<label>TITLE</label> 
-					<input id="title" class="form-control" placeholder="title"> 
-					
-					<label>Content</label>
-					<textarea id="content" class="form-control" placeholder="content"></textarea>
-					
-					<button id="save" type="submit" class="btn btn-info">저장</button>
-				</div>
-			</form>
-	</div>
+			<div id="form" class="form-group form-vales">
+				<label>TITLE</label> 
+				<input v-model="title" class="form-control" placeholder="title">
+				
+				<label>Content</label>
+				<textarea v-model="content" class="form-control" placeholder="content"></textarea>
+
+				<button v-on:click="sendPost" class="btn btn-info">저장</button>
+			</div>
+		</div>
 	<div class="col"></div>
 </div>
 </body>
 
+<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../js/vue.js"></script>
 <script>
-	$(document).ready(function() {
-		$("#save").click(function( event ){
-			event.preventDefault();
-			var todo = {
-					title : $("#title").val(), 
-					content : $("#content").val(),
-					};
-
-			for ( var str in todo) {
-				if (todo[str].length == 0){ 
-					alert($("#" + str).attr("placeholder")+ "를 입력해주세요.");
-					$("#" + str).focus();
-					return;
-				}
+	var app = new Vue({
+		el: '#form',
+		data:{
+			'title': '' ,
+			'content': ''
+		},
+		methods:{
+			sendPost: function(){
+   				$.ajax({
+					method:"post",
+					url:"http://localhost:8080/api/create",
+					data: {
+						title: this.title, 
+						content: this.content
+					},
+					success: function(data){   
+						location.href="http://localhost:8080/";
+			        },
+			        error: function(err) {
+			        	console.log(err);
+			        	alert(err);
+			        }
+			    });
 			}
-			
-			$.ajax({
-				method:"post",
-				url:"http://localhost:8080/api/create",
-				data: todo,
-				success: function(data){
-					location.href="http://localhost:8080/";
-		        },
-		        error: function(err) {
-		        	console.log(err);
-		        	alert(err);
-		        }
-		    });
-		});
+		}
 	});
+
 </script>
 </html>
 

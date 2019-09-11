@@ -26,4 +26,9 @@ public class PageController {
 		return "edit";
 	}
 	
+	@GetMapping("/test")
+	public String test() {
+		return "test";
+	}
+	
 }

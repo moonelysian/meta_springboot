@@ -4,7 +4,6 @@
 	<title>EDIT</title>
 	<meta content="text/html; charset=utf-8" />
 	<meta content="text/html; charset=utf-8" />
-	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 	<link rel="stylesheet" href="../css/style.css">
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
 </head>
@@ -20,59 +19,105 @@
 <div class="row">
 	<div class="col"></div>
 	<div class="col-6">
-		<div class="form-group form-vales">
-			<label>TITLE</label>
-			<input id="title" class="form-control"> 
-			<label>Content</label>
-			<textarea id="content" class="form-control"></textarea>
-			<button id="update" type="submit" class="btn btn-info">update</button>
+		<div id="form" class="form-group form-vales">
+			<template>
+				<label>TITLE</label>
+				<input v-model="todo.title" class="form-control">
+				<label>Content</label>
+				<textarea v-model="todo.content" class="form-control"></textarea>
+				<button  v-on:click="updateTodo"class="btn btn-info">update</button>
+			</template>
 		</div>
 	</div>
 	<div class="col"></div>
 </div>
 </body>
 
+<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../js/vue.js"></script>
 <script>
-
-	$(document).ready(function(){
-		var path = $(location).attr('pathname');
-		var postId = path.split('/').pop();
-		assignData(postId);
-
-		$("#update").click(function(){
-			var edited = {
-					title: $("#title").val(),
-					content: $("#content").val(),
-				}
-			
-			$.ajax({
-				type:"PUT",
-				url: "http://localhost:8080/api/update/"+postId,
-				data: edited,
-				success: function(data){
-					location.href="http://localhost:8080/";
-				},
-				error: function(data){
-					console.log(data);
-				}
-			});
-		});
-		
-		function assignData(postId){
-			$.ajax({
-				type:"GET",
-				url: "http://localhost:8080/api/todo/"+postId,
-				success: function(data){
-					data.forEach(function(item,index,array){
-						$("#title").val(item.title);
-						$("textarea").append(item.content);
-					});
-				},
-				error: function(data){
-					console.log(data);
-				}
-			});
+	const path = $(location).attr('pathname');
+	const postId = path.split('/').pop();
+	const app = new Vue({
+		el: '#form',
+		data:{
+			'todo': []
+		},
+		methods:{
+			assignData: function(postId){
+				const self = this;
+				$.ajax({
+	 				type:"GET",
+	 				url: "http://localhost:8080/api/todo/"+postId,
+	 				success: function(data){
+	 					self.todo = data[0];
+	 				},
+	 				error: function(data){
+	 					console.log(data);
+	 				}
+	 			});
+			},
+			updateTodo: function(){
+				const self = this
+   				$.ajax({
+					method:"PUT",
+					url:"http://localhost:8080/api/update/"+postId,
+					data: {
+						'title': self.todo.title,
+						'content': self.todo.content
+					},
+					success: function(data){   
+						location.href="http://localhost:8080/";
+			        },
+			        error: function(err) {
+			        	console.log(err);
+			        	alert(err);
+			        }
+			    });
+			}
 		}
-	});
+	})
+	
+	app.assignData(postId);
+// 	$(document).ready(function(){
+// 		var path = $(location).attr('pathname');
+// 		var postId = path.split('/').pop();
+// 		assignData(postId);
+
+// 		$("#update").click(function(){
+// 			var edited = {
+// 					title: $("#title").val(),
+// 					content: $("#content").val(),
+// 				}
+			
+// 			$.ajax({
+// 				type:"PUT",
+// 				url: "http://localhost:8080/api/update/"+postId,
+// 				data: edited,
+// 				success: function(data){
+// 					location.href="http://localhost:8080/";
+// 				},
+// 				error: function(data){
+// 					console.log(data);
+// 				}
+// 			});
+// 		});
+		
+// 		function assignData(postId){
+// 			$.ajax({
+// 				type:"GET",
+// 				url: "http://localhost:8080/api/todo/"+postId,
+// 				success: function(data){
+// 					data.forEach(function(item,index,array){
+// 						$("#title").val(item.title);
+// 						$("textarea").append(item.content);
+// 					});
+// 				},
+// 				error: function(data){
+// 					console.log(data);
+// 				}
+// 			});
+// 		}
+// 	});
 </script>
 </html>

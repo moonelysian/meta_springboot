@@ -1,4 +1,4 @@
-	//$(document).ready(function(){
+//$(document).ready(function(){
 //	
 //	var row = $("select option:selected").val();
 //	assignDataTest(row,0);

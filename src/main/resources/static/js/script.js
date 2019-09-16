@@ -63,22 +63,37 @@ const vm = new Vue({
 const pageBar = new Vue({
 	el: '#bar',
 	data:{
-		'pageNum': '',
-		'pageCnt': ''
+		'pageNum': 1,
+		'pageCnt': '',
 	},
 	methods:{
 		goFirst: function(){
 			const firstPage = 1;
 			vm.assignDataTable(vm.selected, firstPage);
+			this.pageNum = firstPage;
 		},
 		changePage: function(pageNum){
-			const pageNo = pageNum;
-			vm.assignDataTable(vm.selected, pageNo);
+			this.pageNum = pageNum;
+			vm.assignDataTable(vm.selected, pageNum);
 		},
 		goLast: function(){
 			const lastPage = this.pageCnt;
-			console.log(lastPage)
 			vm.assignDataTable(vm.selected, lastPage);
+			this.pageNum = lastPage;
+		},
+		goPre: function(){
+			var current = this.pageNum;
+			if(current!=1){
+				vm.assignDataTable(vm.selected, (current-1));
+				this.pageNum = (current-1);
+			}
+		},
+		goNext: function(){
+			var current = parseInt(this.pageNum);
+			if(current < this.pageCnt){
+				vm.assignDataTable(vm.selected, (current+1));
+				this.pageNum = (current+1);
+			}
 		},
 		makeBar: function(selected){
 			const self = this;

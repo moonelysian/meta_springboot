@@ -54,7 +54,9 @@ const vm = new Vue({
 		},
 		pageControll: function(selected){
 			pageBar.makeBar(selected);
-			vm.assignDataTable(selected,1);
+			pageBar.pageNum = 1;
+			vm.assignDataTable(selected, pageBar.pageNum);
+			
 		},
 		
 	}

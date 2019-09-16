@@ -1,30 +1,129 @@
+const vm = new Vue({
+	el: '#todoList',
+	data: {
+		'fullList': [],
+		'todoId': '',
+		'selected': 3
+	},
+	methods: {
+		assignDataTable: function(row, pageNo){
+			const self = this;
+			const pageData = {
+					pageSize: row,
+					pageNo: pageNo-1
+			}
+			$.ajax({
+				type: "GET",
+				url: "http://localhost:8080/api/todos",
+				data: pageData,
+				success: function(data){
+					self.fullList = data;
+				},
+				error: function(data){
+					console.log(data);
+				}
+			});
+		},
+		showButton: function(id){
+			$.ajax({
+				type:"GET",
+				url: "http://localhost:8080/api/todo/"+id,
+				success: function(data){
+					location.href="http://localhost:8080/todo/"+id;
+				}
+			})
+		},
+		editButton: function(id){
+			$.ajax({
+				type:"GET",
+				url: "http://localhost:8080/edit/"+id,
+				success: function(data){
+					location.href="http://localhost:8080/edit/"+id;
+				}
+			});
+		},
+		deleteButton: function(id){
+			$.ajax({
+				type:"DELETE",
+				url: "http://localhost:8080/api/todo/"+id,
+				success: function(data){
+					alert("삭제되었습니다!")
+					location.href="http://localhost:8080";
+				}
+			});
+		},
+		pageControll: function(selected){
+			pageBar.makeBar(selected);
+			vm.assignDataTable(selected,1);
+		},
+		
+	}
+});
+
+const pageBar = new Vue({
+	el: '#bar',
+	data:{
+		'pageNum': '',
+		'pageCnt': ''
+	},
+	methods:{
+		goFirst: function(){
+			const firstPage = 1;
+			vm.assignDataTable(vm.selected, firstPage);
+		},
+		changePage: function(pageNum){
+			const pageNo = pageNum;
+			vm.assignDataTable(vm.selected, pageNo);
+		},
+		goLast: function(){
+			const lastPage = this.pageCnt;
+			console.log(lastPage)
+			vm.assignDataTable(vm.selected, lastPage);
+		},
+		makeBar: function(selected){
+			const self = this;
+			$.ajax({
+				type: "GET",
+				url:"http://localhost:8080/api/count",
+				success: function(data){
+					self.pageCnt = Math.ceil(data/selected);
+				}
+			});
+		}
+	}
+});
+
+vm.assignDataTable(vm.selected,1);
+pageBar.makeBar(vm.selected);
+
+
 //$(document).ready(function(){
 	
 //	assignDataToTable();
     
-	$('table').on('click', 'button[id="show"]', function(e){
-		var postId = $(this).closest('tr').children('td:first').text();
-		location.href="http://localhost:8080/todo/"+postId;
-
-	})
-	
-	$('table').on('click', 'button[id="edit"]', function(e){
-		
-		var postId = $(this).closest('tr').children('td:first').text();
-	    
-	    $.ajax({
-	    	type:"GET",
-	        url:"http://localhost:8080/edit/"+postId,
-	        data: postId,
-	        success: function(data){
-	        	location.href="http://localhost:8080/edit/"+postId;
-	            },
-	            error: function(err) {  
-	                console.log(err);
-	                alert(err);
-	            }
-	        });
-	    })
+//	$('table').on('click', 'button[id="show"]', function(e){
+//		var postId = $(this).closest('tr').children('td:first').text();
+//		location.href="http://localhost:8080/todo/"+postId;
+//
+//	})
+//	
+//	$('table').on('click', 'button[id="edit"]', function(e){
+//		
+//		var postId = $(this).closest('tr').children('td:first').text();
+//	    
+//	    $.ajax({
+//	    	type:"GET",
+//	        url:"http://localhost:8080/edit/"+postId,
+//	        data: postId,
+//	        success: function(data){
+//	        	location.href="http://localhost:8080/edit/"+postId;
+//	            },
+//	            error: function(err) {  
+//	                console.log(err);
+//	                alert(err);
+//	            }
+//	        });
+//	    })
 
 //    function assignDataToTable() {
 //        $("tbody").empty();

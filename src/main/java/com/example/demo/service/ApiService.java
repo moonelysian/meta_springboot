@@ -15,6 +15,10 @@ public class ApiService {
 	@Autowired
 	private ApiMapper apiMapper;
 	
+	public List<Todo> selectTodoList(){
+		return apiMapper.selectTodoList();
+	}
+	
 	public List<Todo> paging(Pagination page){
 		return apiMapper.paging(page);
 	}

@@ -24,11 +24,5 @@ public class PageController {
 	@GetMapping("edit/{id}")
 	public String edit() {
 		return "edit";
-	}
-	
-	@GetMapping("/test")
-	public String test() {
-		return "test";
-	}
-	
+	}	
 }

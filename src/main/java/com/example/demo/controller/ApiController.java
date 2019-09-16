@@ -23,6 +23,9 @@ public class ApiController {
 	private ApiService apiService;
 	
 	@GetMapping("/todos")
+//	public List<Todo> todoAll(){
+//		return apiService.selectTodoList();
+//	}
 	public List<Todo> paging(@ModelAttribute Pagination page){
 		int num = page.getPageNo();
 		int size = page.getPageSize();

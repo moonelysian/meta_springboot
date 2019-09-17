@@ -57,8 +57,7 @@ const vm = new Vue({
 			pageBar.startNum = 1;
 			vm.assignDataTable(selected, pageBar.startNum);
 			
-		},
-		
+		},	
 	}
 });
 
@@ -68,8 +67,7 @@ const pageBar = new Vue({
 		'startNum': 1,
 		'current': 1,
 		'totalPage': '',
-		'maxVisibleButtons': 5
-		
+		'maxVisibleButtons': 5,		
 	},
 	computed:{
 		startPage() {
@@ -80,7 +78,7 @@ const pageBar = new Vue({
 		},
 		
 		endPage(){
-			return Math.min(this.startPage + this.maxVisibleButtons - 1, this.totalPage)
+			return Math.min(this.startPage + this.maxVisibleButtons - 1, this.totalPage);
 		},
 		
 		pages(){
@@ -89,6 +87,10 @@ const pageBar = new Vue({
 				range.push(i);
 			}
 			return range;
+		},
+		
+		pageCnt(){
+			return Math.ceil(this.totalPage/this.maxVisibleButtons);
 		}
 	},
 	methods:{
@@ -100,23 +102,33 @@ const pageBar = new Vue({
 		},
 		
 		changePage: function(currentPage){
-			vm.assignDataTable(vm.selected, currentPage);
 			this.current = currentPage;
+			vm.assignDataTable(vm.selected, currentPage);
 		},
 		
 		goLast: function(){
 			const lastPage = this.totalPage;
-			vm.assignDataTable(vm.selected, lastPage);
-			this.startNum = lastPage;
-			this.current = lastPage;
+			const maxButton = this.maxVisibleButtons;
+			const check = (this.pageCnt-1)*maxButton + 1;
+			
+			if( check < lastPage){
+				this.startNum = check;
+				this.current = check;
+			}
+			else{
+				this.startNum = lastPage;
+				this.current = lastPage;
+			}
+			
+			vm.assignDataTable(vm.selected, this.startNum);
 		},
 		
 		goPre: function(){
 			var pre = this.startPage;
-			console.log(pre);
+			
 			if(pre >= this.maxVisibleButtons-1){
 				vm.assignDataTable(vm.selected, (pre-1));
-				if(pre - this.maxVisibleButtons<1){
+				if( pre-this.maxVisibleButtons < 1){
 					this.startNum = 1;
 					this.current = 1;
 				}
@@ -143,8 +155,11 @@ const pageBar = new Vue({
 				url:"http://localhost:8080/api/count",
 				success: function(data){
 					self.totalPage = Math.ceil(data/selected);
-					if(self.totalPage > self.maxVisibleButtons)
+					self.current = 1;
+					
+					if(self.totalPage > self.maxVisibleButtons){
 						return self.pages;
+					}
 					else
 						self.pages = self.totalPage;
 				}

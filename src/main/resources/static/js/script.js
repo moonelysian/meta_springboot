@@ -108,6 +108,7 @@ const pageBar = new Vue({
 			const lastPage = this.totalPage;
 			vm.assignDataTable(vm.selected, lastPage);
 			this.startNum = lastPage;
+			this.current = lastPage;
 		},
 		
 		goPre: function(){
@@ -154,6 +155,7 @@ const pageBar = new Vue({
 
 vm.assignDataTable(vm.selected,1);
 pageBar.makeBar(vm.selected);
+
 
 
 //$(document).ready(function(){

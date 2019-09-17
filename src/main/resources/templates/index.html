@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 </head>
 
-<nav>
+<nav style="margin-top: 30px;">
 	<ul class="nav justify-content-center">
 		<li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
 		<li class="nav-item"><a class="nav-link" href="/new">ADD</a></li>
@@ -62,7 +62,7 @@
 		<div id="bar" class="row">
 			<div class="col"></div>
 				<nav class="justify-content-center">
-					{{current}} / {{totalPage}}
+					<div style="text-align: center; margin-bottom: 10px">{{current}} / {{totalPage}}</div>
 					
 					<ul id="pagination" class="pagination">
 						<li id="first" @click="goFirst">
@@ -77,9 +77,9 @@
 							</a>
 						</li>
 						
-						<template v-for="i in pages">
+						<template v-for="page in pages">
 							<li class="page-item">
-								<a v-model="current" @click="changePage(i)" class="page-link" href="#">{{i}}</a>
+								<a class="page-link" @click="changePage(page)" href="#">{{page}}</a>
 							</li>
 						</template>
 						

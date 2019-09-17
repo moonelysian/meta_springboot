@@ -25,7 +25,7 @@
 				<input v-model="todo.title" class="form-control">
 				<label>Content</label>
 				<textarea v-model="todo.content" class="form-control"></textarea>
-				<button  v-on:click="updateTodo"class="btn btn-info">update</button>
+				<button  @click="updateTodo"class="btn btn-info">update</button>
 			</template>
 		</div>
 	</div>

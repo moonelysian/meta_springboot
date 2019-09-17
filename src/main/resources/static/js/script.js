@@ -54,8 +54,8 @@ const vm = new Vue({
 		},
 		pageControll: function(selected){
 			pageBar.makeBar(selected);
-			pageBar.pageNum = 1;
-			vm.assignDataTable(selected, pageBar.pageNum);
+			pageBar.startNum = 1;
+			vm.assignDataTable(selected, pageBar.startNum);
 			
 		},
 		
@@ -65,45 +65,87 @@ const vm = new Vue({
 const pageBar = new Vue({
 	el: '#bar',
 	data:{
-		'pageNum': 1,
-		'pageCnt': '',
+		'startNum': 1,
+		'current': 1,
+		'totalPage': '',
+		'maxVisibleButtons': 5
+		
+	},
+	computed:{
+		startPage() {
+		      if (this.startNum === 1) {
+		        return 1;
+		      }
+		      return this.startNum;
+		},
+		
+		endPage(){
+			return Math.min(this.startPage + this.maxVisibleButtons - 1, this.totalPage)
+		},
+		
+		pages(){
+			const range = []
+			for(let i= this.startPage; i<= this.endPage; i+=1){
+				range.push(i);
+			}
+			return range;
+		}
 	},
 	methods:{
 		goFirst: function(){
 			const firstPage = 1;
 			vm.assignDataTable(vm.selected, firstPage);
-			this.pageNum = firstPage;
+			this.startNum = firstPage;
+			this.current = firstPage;
 		},
-		changePage: function(pageNum){
-			this.pageNum = pageNum;
-			vm.assignDataTable(vm.selected, pageNum);
+		
+		changePage: function(currentPage){
+			vm.assignDataTable(vm.selected, currentPage);
+			this.current = currentPage;
 		},
+		
 		goLast: function(){
-			const lastPage = this.pageCnt;
+			const lastPage = this.totalPage;
 			vm.assignDataTable(vm.selected, lastPage);
-			this.pageNum = lastPage;
+			this.startNum = lastPage;
 		},
+		
 		goPre: function(){
-			var current = this.pageNum;
-			if(current!=1){
-				vm.assignDataTable(vm.selected, (current-1));
-				this.pageNum = (current-1);
+			var pre = this.startPage;
+			console.log(pre);
+			if(pre >= this.maxVisibleButtons-1){
+				vm.assignDataTable(vm.selected, (pre-1));
+				if(pre - this.maxVisibleButtons<1){
+					this.startNum = 1;
+					this.current = 1;
+				}
+				else{
+					this.startNum = pre - this.maxVisibleButtons;
+					this.current = pre-1;
+				}	
 			}
 		},
+		
 		goNext: function(){
-			var current = parseInt(this.pageNum);
-			if(current < this.pageCnt){
-				vm.assignDataTable(vm.selected, (current+1));
-				this.pageNum = (current+1);
+			var next = this.endPage;
+			if( next < this.totalPage){
+				vm.assignDataTable(vm.selected, (next+1));
+				this.startNum = next+1;
+				this.current = next+1;
 			}
 		},
+		
 		makeBar: function(selected){
 			const self = this;
 			$.ajax({
 				type: "GET",
 				url:"http://localhost:8080/api/count",
 				success: function(data){
-					self.pageCnt = Math.ceil(data/selected);
+					self.totalPage = Math.ceil(data/selected);
+					if(self.totalPage > self.maxVisibleButtons)
+						return self.pages;
+					else
+						self.pages = self.totalPage;
 				}
 			});
 		}

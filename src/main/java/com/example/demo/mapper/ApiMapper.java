@@ -24,27 +24,7 @@ public interface ApiMapper {
 			+ " SELECT * FROM todos WHERE todo_id=#{id}"
 			+ "</script>")
 	public List<Todo> findById(@Param("id") Integer id);
-	
-	@Insert(value = "<script>"
-			+ "INSERT INTO todos (title,content,created) VALUES(#{title}, #{content}, #{created})"
-			+ "</script>"
-			)
-	public Integer createTodo(Todo todo);
-	
-	@Update(value="<script>"
-			+ " UPDATE todos "
-			+ " SET title=#{todo.title}, content=#{todo.content}, created=#{todo.created} "
-			+ " WHERE todo_id=#{id} "
-			+ "</script>"
-			)
-	public Integer updateTodo(@Param("id") Integer id,Todo todo);
-	
-	@Delete(value = "<script>"
-			+ "DELETE FROM todos WHERE todo_id=#{id}"
-			+ "</script>"
-			)
-	public Integer deleteById(@Param("id") Integer id);
-	
+		
 	//pagination
 	@Select(value = "<script>"
 			+ "SELECT COUNT(*) FROM todos"

@@ -9,8 +9,8 @@ const vm = new Vue({
 		assignDataTable: function(row, pageNo){
 			const self = this;
 			const pageData = {
-					pageSize: row,
-					pageNo: pageNo-1
+				pageSize: row,
+				pageNo: pageNo-1
 			}
 			$.ajax({
 				type: "GET",
@@ -45,7 +45,10 @@ const vm = new Vue({
 		deleteButton: function(id){
 			$.ajax({
 				type:"DELETE",
-				url: "http://localhost:8080/api/todo/"+id,
+				data: {
+					'todoId': id
+				},
+				url: "http://localhost:8080/api/todo",
 				success: function(data){
 					alert("삭제되었습니다!")
 					location.href="http://localhost:8080";

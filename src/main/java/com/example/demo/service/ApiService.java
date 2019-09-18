@@ -15,9 +15,9 @@ public class ApiService {
 	@Autowired
 	private ApiMapper apiMapper;
 	
-	public List<Todo> selectTodoList(){
-		return apiMapper.selectTodoList();
-	}
+//	public List<Todo> selectTodoList(){
+//		return apiMapper.selectTodoList();
+//	}
 	
 	public List<Todo> paging(Pagination page){
 		return apiMapper.paging(page);
@@ -25,18 +25,6 @@ public class ApiService {
 	
 	public List<Todo> findById(Integer id){
 		return apiMapper.findById(id);
-	}
-	
-	public Integer createTodo(Todo todo) {
-		return apiMapper.createTodo(todo);
-	}
-	
-	public Integer updateTodo(Integer id, Todo todo) {
-		return apiMapper.updateTodo(id, todo);
-	}
-	
-	public Integer deleteById(Integer id){
-		return apiMapper.deleteById(id);
 	}
 	
 	//pagination

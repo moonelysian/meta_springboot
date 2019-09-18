@@ -24,8 +24,9 @@ const path = $(location).attr('pathname');
 				const self = this
    				$.ajax({
 					method:"PUT",
-					url:"http://localhost:8080/api/update/"+postId,
+					url:"http://localhost:8080/api/update/",
 					data: {
+						'todoId': self.todo.toId,
 						'title': self.todo.title,
 						'content': self.todo.content
 					},

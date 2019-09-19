@@ -14,22 +14,20 @@ public class ApiService {
 
 	@Autowired
 	private ApiMapper apiMapper;
-	
-//	public List<Todo> selectTodoList(){
-//		return apiMapper.selectTodoList();
-//	}
+
+	public List<Todo> findById(Integer id){
+		return apiMapper.findById(id);
+	}
 	
 	public List<Todo> paging(Pagination page){
 		return apiMapper.paging(page);
 	}
 	
-	public List<Todo> findById(Integer id){
-		return apiMapper.findById(id);
+	public List<Todo> search(String title){
+		return apiMapper.search(title);
 	}
-	
-	//pagination
-	public Integer countTodo() {
-		return apiMapper.countTodo();
-	}
+//	public Integer countTodo() {
+//		return apiMapper.countTodo();
+//	}
 	
 }

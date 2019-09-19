@@ -49,6 +49,11 @@ public class ApiController {
 		return apiService.findById(id);
 	}
 	
+	@GetMapping("/search")
+	public List<Todo> searchByTitle(String title){
+		return apiService.search(title);
+	}
+	
 	@PostMapping("/create")
 	public Todo create(@ModelAttribute Todo todo) {
 		return todoRepository.save(todo);
@@ -66,7 +71,7 @@ public class ApiController {
 	
 	//pagination
 	@GetMapping("/count")
-	public Integer countTodo(){
-		return apiService.countTodo();
+	public Long countTodo(){
+		return todoRepository.count();
 	}
 }

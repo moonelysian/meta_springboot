@@ -3,7 +3,9 @@ const vm = new Vue({
 	data: {
 		'fullList': [],
 		'todoId': '',
-		'selected': 3
+		'selected': 3,
+		'searchList':[],
+		'current':1
 	},
 	methods: {
 		assignDataTable: function(row, pageNo){
@@ -17,7 +19,20 @@ const vm = new Vue({
 				url: "http://localhost:8080/api/todos",
 				data: pageData,
 				success: function(data){
-					self.fullList = data;
+					const searchResult = self.searchList;
+					const selected = self.selected;
+					
+					if(self.searchList.length != 0){
+						self.fullList = searchResult.slice(0,selected);
+						
+						if(self.current!=1){
+							const num = self.current-1;
+							self.fullList = searchResult.slice(num*selected, (num+1)*selected);
+						}
+					}
+					else{
+						self.fullList = data;
+					}
 				},
 				error: function(data){
 					console.log(data);
@@ -50,7 +65,7 @@ const vm = new Vue({
 				},
 				url: "http://localhost:8080/api/todo",
 				success: function(data){
-					alert("삭제되었습니다!")
+					alert("삭제되었습니다!");
 					location.href="http://localhost:8080";
 				}
 			});
@@ -60,7 +75,12 @@ const vm = new Vue({
 			pageBar.startNum = 1;
 			vm.assignDataTable(selected, pageBar.startNum);
 			
-		},	
+		},
+		search: function(data){
+			this.searchList = data;
+			vm.assignDataTable(vm.selected,1);
+			pageBar.makeBar(vm.selected);
+		}
 	}
 });
 
@@ -106,6 +126,7 @@ const pageBar = new Vue({
 		
 		changePage: function(currentPage){
 			this.current = currentPage;
+			vm.current = currentPage;
 			vm.assignDataTable(vm.selected, currentPage);
 		},
 		
@@ -127,7 +148,7 @@ const pageBar = new Vue({
 		},
 		
 		goPre: function(){
-			var pre = this.startPage;
+			const pre = this.startPage;
 			
 			if(pre >= this.maxVisibleButtons-1){
 				vm.assignDataTable(vm.selected, (pre-1));
@@ -143,7 +164,7 @@ const pageBar = new Vue({
 		},
 		
 		goNext: function(){
-			var next = this.endPage;
+			const next = this.endPage;
 			if( next < this.totalPage){
 				vm.assignDataTable(vm.selected, (next+1));
 				this.startNum = next+1;
@@ -157,8 +178,15 @@ const pageBar = new Vue({
 				type: "GET",
 				url:"http://localhost:8080/api/count",
 				success: function(data){
-					self.totalPage = Math.ceil(data/selected);
-					self.current = 1;
+					const searchList = vm.searchList;
+					if(searchList.length != 0){
+						self.totalPage = Math.ceil(searchList.length/selected);
+						self.current = 1;
+					}
+					else{
+						self.totalPage = Math.ceil(data/selected);
+						self.current = 1;
+					}
 					
 					if(self.totalPage > self.maxVisibleButtons){
 						return self.pages;
@@ -166,6 +194,37 @@ const pageBar = new Vue({
 					else
 						self.pages = self.totalPage;
 				}
+			});
+		}
+	}
+});
+
+const search = new Vue({
+	el: '#search',
+	data: {
+		'title':''
+	},
+	methods:{
+		searchByTitle: function(){
+			$.ajax({
+				method:"GET",
+				url:"http://localhost:8080/api/search",
+				data: {
+					title: this.title
+				},
+				success: function(data){
+					if(data.length == 0){
+						alert("찾는 제목이 없습니다.");
+						location.href="http://localhost:8080";
+					}
+					else{
+						vm.search(data);
+					}
+			     },
+			     error: function(err) {
+			        console.log(err);
+			        alert(err);
+			     }
 			});
 		}
 	}

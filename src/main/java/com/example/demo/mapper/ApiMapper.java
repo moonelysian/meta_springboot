@@ -14,30 +14,32 @@ import com.example.demo.model.Todo;
 
 @Mapper
 public interface ApiMapper {
-	
-	@Select(value = "<script>"
-			+ " SELECT * FROM todos "
-			+ "</script>")
-	public List<Todo> selectTodoList();
-	
+		
 	@Select(value = "<script>"
 			+ " SELECT * FROM todos WHERE todo_id=#{id}"
 			+ "</script>")
 	public List<Todo> findById(@Param("id") Integer id);
-		
-	//pagination
-	@Select(value = "<script>"
-			+ "SELECT COUNT(*) FROM todos"
-			+ "</script>"
-			)
-	public Integer countTodo();
-	
+
 	@Select(value="<script>"
 			+ " SELECT * FROM todos"
 			+ " ORDER BY todo_id DESC"
 			+ " LIMIT #{pageSize} OFFSET #{value}"
-			+"</script>"
+			+ "</script>"
 			)
 	public List<Todo> paging(Pagination page);
+	
+	@Select(value = "<script>"
+			+ " SELECT * FROM todos"
+			+ " WHERE title LIKE"
+			+ " '%${title}%'"
+			+ " </script>"
+			)
+	public List<Todo> search(@Param("title") String title);
+
+//	@Select(value = "<script>"
+//			+ "SELECT COUNT(*) FROM todos"
+//			+ "</script>"
+//			)
+//	public Integer countTodo();
 	
 }

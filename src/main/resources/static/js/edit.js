@@ -1,46 +1,47 @@
 const path = $(location).attr('pathname');
-	const postId = path.split('/').pop();
-	const app = new Vue({
-		el: '#form',
+const postId = path.split('/').pop();
+
+const app = new Vue({
+	el: '#form',
 		data:{
 			'todo': []
-		},
-		methods:{
-			assignData: function(postId){
-				const self = this;
-				$.ajax({
-	 				type:"GET",
-	 				url: "http://localhost:8080/api/todo/"+postId,
-	 				success: function(data){
-	 					self.todo = data[0];
-	 				},
-	 				error: function(data){
-	 					console.log(data);
-	 				}
-	 			});
-			},
-			
-			updateTodo: function(){
-				const self = this
-   				$.ajax({
-					method:"PUT",
-					url:"http://localhost:8080/api/update/",
-					data: {
-						'todoId': self.todo.toId,
-						'title': self.todo.title,
-						'content': self.todo.content
-					},
-					success: function(data){   
-						location.href="http://localhost:8080/";
-			        },
-			        error: function(err) {
-			        	console.log(err);
-			        	alert(err);
-			        }
-			    });
-			}
+	},
+	methods:{
+		assignData: function(postId){
+			const self = this;
+			$.ajax({
+	 			type:"GET",
+	 			url: "http://localhost:8080/api/todo/"+postId,
+	 			success: function(data){
+	 				self.todo = data[0];
+	 			},
+	 			error: function(data){
+	 				console.log(data);
+	 			}
+	 		});
+		},	
+		updateTodo: function(){
+			const self = this;
+			console.log(this.todo.todoId);
+   			$.ajax({
+				method:"PUT",
+				url:"http://localhost:8080/api/update/",
+				data: {
+					'todoId': self.todo.todoId,
+					'title': self.todo.title,
+					'content': self.todo.content
+				},
+				success: function(data){   
+					location.href="http://localhost:8080/";
+			    },
+			    error: function(err) {
+			        console.log(err);
+			        alert(err);
+			    }
+			});
 		}
-	})
+	}
+})
 	
 	app.assignData(postId);
 // 	$(document).ready(function(){

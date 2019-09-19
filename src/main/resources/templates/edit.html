@@ -5,10 +5,9 @@
 	<meta content="text/html; charset=utf-8" />
 	<meta content="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="../css/style.css">
-	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
 </head>
 
-<nav>
+<nav style="margin-top: 30px;">
 	<ul class="nav justify-content-center">
 		<li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
 		<li class="nav-item"><a class="nav-link" href="/new">ADD</a></li>
@@ -23,8 +22,10 @@
 			<template>
 				<label>TITLE</label>
 				<input v-model="todo.title" class="form-control">
+				<br>
 				<label>Content</label>
-				<textarea v-model="todo.content" class="form-control"></textarea>
+				<textarea v-model="todo.content" class="form-control" rows="10"></textarea>
+				<br>
 				<button  @click="updateTodo"class="btn btn-info">update</button>
 			</template>
 		</div>

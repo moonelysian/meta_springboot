@@ -60,12 +60,12 @@ public class ApiController {
 	}
 	
 	@PutMapping("/update")
-	public Todo updateTodo(@ModelAttribute Todo todo) {
-		return todoRepository.save(todo);
+	public Todo updateTodo(@ModelAttribute Todo todo){
+        return todoRepository.save(todo);
 	}
 	
 	@DeleteMapping("/todo")
-	public void deleteTodo(@ModelAttribute Todo todo) {
+	public void deleteTodo( @ModelAttribute Todo todo) {
 		todoRepository.delete(todo);
 	}
 	

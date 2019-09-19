@@ -12,9 +12,9 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-@Data
 @Entity
 @Table(name="todos")
+@Data
 public class Todo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

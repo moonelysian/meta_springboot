@@ -135,7 +135,7 @@ const pageBar = new Vue({
 			const maxButton = this.maxVisibleButtons;
 			const check = (this.pageCnt-1)*maxButton + 1;
 			
-			if( check < lastPage){
+			if(check < lastPage){
 				this.startNum = check;
 				this.current = check;
 			}

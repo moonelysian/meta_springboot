@@ -21,16 +21,15 @@
 			
 			<div id="search" class="col-6">
 				<input v-model="title" placeholder="search title"> 
-				<button @click="searchByTitle">search</button>
+				<button @click="searchByTitle" style="background-color: YellowGreen; border: none; color: white; padding: 4px 16px; border-radius: 5px;">Search</button>
 			</div>
 			
 			<div class="col"></div>
 		</div>
-		
+		<br>
 		<div class="row">
 			<div class="col"></div>
 			<div class="col-6">
-				<br><br>
 				<table id="todoList" class="table table-striped">
 					<thead>
 						<tr>

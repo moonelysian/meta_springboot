@@ -20,13 +20,16 @@
 	<div class="col-6">
 		<div id="form" class="form-group form-vales">
 			<template>
+				<h2>할 일 수정</h2>
 				<label>TITLE</label>
 				<input v-model="todo.title" class="form-control">
 				<br>
 				<label>Content</label>
 				<textarea v-model="todo.content" class="form-control" rows="10"></textarea>
 				<br>
-				<button  @click="updateTodo"class="btn btn-info">update</button>
+				<div style="text-align: right">
+					<button @click="updateTodo" class="btn btn-info">update</button>
+				</div>
 			</template>
 		</div>
 	</div>

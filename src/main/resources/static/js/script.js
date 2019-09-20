@@ -211,6 +211,7 @@ const search = new Vue({
 				url:"http://localhost:8080/api/search",
 				data: {
 					title: this.title
+					page
 				},
 				success: function(data){
 					if(data.length == 0){

@@ -23,19 +23,29 @@ var app = new Vue({
 				        }
 				  });
 				}
-		},
-		checkRequire: function(){
-			if(this.title!=''){
-				if(this.content!=''){
-					return true;
+			},
+			checkRequire: function(){
+				if(this.title!=''){
+					if(this.content!='')
+						return true;
+					else
+						alert("내용을 입력하세요!");
 				}
-				else{
-					alert("내용을 입력하세요!");
-				}
-			}
-			else{
-				alert("제목을 입력하세요!");
-			}
+			
+				else
+					alert("제목을 입력하세요!");
+			},
+			content_typing: function(data){    	
+	            this.max_length(data, 500);
+	        },
+	        max_length: function(data, len){
+	        	const val = data.target.value;
+	        	if(val.length > len){
+	        		const msg = "최대 입력 길이를 초과하셨습니다!";
+	        		alert(msg);
+	        		this.content = val.substring(0,len);
+	        		
+	        	}
+	        }
 		}
-	}
-});
+	});

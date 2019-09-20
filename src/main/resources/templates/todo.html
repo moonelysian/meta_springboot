@@ -15,21 +15,22 @@
 
 	<body>
 		<div class="row">
-			<div class="col"></div>
 			<div id="todo" class="col-6">
 				<template>
 					<span>{{todoList.todoId}}</span>
 					<h3 class="title">{{todoList.title}}</h3>
 					<hr>
-					<p class="content">{{todoList.content}}</p>
+					<p class="content">
+						{{todoList.content}}
+					</p>
+					
 					<button @click="editPost" class="btn btn-info">수정</button>
 				</template>
 			</div>
-			<div class="col"></div>
 		</div>
-	
+	</body>
 		<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="../js/vue.js"></script>
 		<script type="text/javascript" src="../js/todo.js"></script>
-	</body>
+
 </html>

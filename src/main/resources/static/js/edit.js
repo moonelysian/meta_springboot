@@ -22,24 +22,49 @@ const app = new Vue({
 		},	
 		updateTodo: function(){
 			const self = this;
-			console.log(this.todo.todoId);
-   			$.ajax({
-				method:"PUT",
-				url:"http://localhost:8080/api/update/",
-				data: {
-					'todoId': self.todo.todoId,
-					'title': self.todo.title,
-					'content': self.todo.content
-				},
-				success: function(data){   
-					location.href="http://localhost:8080/";
-			    },
-			    error: function(err) {
-			        console.log(err);
-			        alert(err);
-			    }
-			});
-		}
+			if(app.checkRequire()){
+	   			$.ajax({
+					method:"PUT",
+					url:"http://localhost:8080/api/update/",
+					data: {
+						'todoId': self.todo.todoId,
+						'title': self.todo.title,
+						'content': self.todo.content
+					},
+					success: function(data){ 
+						location.href="http://localhost:8080/";
+				    },
+				    error: function(err) {
+				        console.log(err);
+				        alert(err);
+				    }
+				});
+			}
+		},
+		checkRequire: function(){
+			const data = this.todo;
+			if(data.title!=''){
+				if(data.content!='')
+					return true;
+				else
+					alert("내용을 입력하세요!");
+			}
+		
+			else
+				alert("제목을 입력하세요!");
+		},
+		content_typing: function(data){    	
+            this.max_length(data, 500);
+        },
+        max_length: function(data, len){
+        	const val = data.target.value;
+        	if(val.length > len){
+        		const msg = "최대 입력 길이를 초과하셨습니다!";
+        		alert(msg);
+        		this.todo.content = val.substring(0,len);
+        		
+        	}
+        }
 	}
 })
 	

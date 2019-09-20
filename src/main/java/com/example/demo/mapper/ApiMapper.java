@@ -32,6 +32,7 @@ public interface ApiMapper {
 			+ " SELECT * FROM todos"
 			+ " WHERE title LIKE"
 			+ " '%${title}%'"
+			+ " ORDER BY todo_id DESC"
 			+ " </script>"
 			)
 	public List<Todo> search(@Param("title") String title);
